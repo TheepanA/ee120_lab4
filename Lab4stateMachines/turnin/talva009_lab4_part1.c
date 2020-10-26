@@ -12,15 +12,12 @@
 #include "simAVRHeader.h"
 #endif
 
-enum States {Start, OffRelease, OnPress, OnRelease, OffPress} state;
+enum States {OffRelease, OnPress, OnRelease, OffPress} state;
 
 void Tick(){
 
 	switch(state){
 
-	case Start:
-	   state = OffRelease;
-	   break;	
 	case OffRelease:
 	   if(PINA == 0X01){ state = OnPress; }
 	   else if (PINA == 0x00){ state = OffRelease; }
@@ -44,8 +41,6 @@ void Tick(){
 
 
 	switch(state){
-	   case Start:
-	      break;	
 	   case OffRelease:
 	      PORTB = 0x01;
 	   case OnPress:
@@ -65,7 +60,7 @@ int main(void) {
         DDRB = 0XFF;
         PORTB = 0x00; // Initialize PORTB output to 0’s
 
-    state = Start;
+    state = OffRelease;
 
     while (1) {
 	Tick();	
